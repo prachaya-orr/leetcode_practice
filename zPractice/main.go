@@ -81,7 +81,8 @@ func encodec(input string) string {
 	for i := 0; i < len(input); i++ {
 		// if i = lastIndex || currValue != nextValue
 		if i == len(input)-1 || input[i] != input[i+1] {
-			temp[string(input[i])] = count
+			char := string(input[i])
+			temp[char] = count
 			count = 1
 		} else {
 			count++

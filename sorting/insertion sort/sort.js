@@ -10,6 +10,6 @@ function insertionSort(arr) {
     }
     return arr;
 }
-const input = [2, 3, 6, 5]
+const input = [4, 2, 3, 6, 5]
 const res = insertionSort(input)
 console.log(res);
