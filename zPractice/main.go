@@ -10,7 +10,7 @@ import (
 func main() {
 	// var aRune rune = 'a'
 	// fmt.Printf("Unicode Code point of %c\n", aRune)
-	encode("aabbbccccc")
+	// encode1("aab bbccccc")
 	encodec("aabbbccccc")
 }
 
@@ -18,6 +18,32 @@ func main() {
 type keyObject struct {
 	key   string
 	count int
+}
+
+func encode1(input string) string {
+	stringArray := []string{}
+	newObjArray := []keyObject{}
+
+	for _, char := range input {
+		stringArray = append(stringArray, string(char))
+	}
+	count := 1
+	for i := range stringArray {
+		if i == len(stringArray)-1 || stringArray[i] != stringArray[i+1] {
+			val := keyObject{key: stringArray[i], count: count}
+			count = 1
+			newObjArray = append(newObjArray, val)
+		} else {
+			count++
+		}
+	}
+	var res string
+	for _, v := range newObjArray {
+		res += strconv.Itoa(v.count) + v.key
+	}
+
+	fmt.Println(res)
+	return res
 }
 
 func encode(input string) string {
@@ -47,27 +73,24 @@ func encode(input string) string {
 }
 
 func encodec(input string) string {
-	temp := make(map[string]int)
-
+	// temp := make(map[string]int)
+	temp := map[string]int{}
+	//{key:count,key:count,key:count}  => {a:2,b:3,c:5}
 	count := 1
 
 	for i := 0; i < len(input); i++ {
 		// if i = lastIndex || currValue != nextValue
 		if i == len(input)-1 || input[i] != input[i+1] {
-			fmt.Println("i == len(input)-1 : ", i == len(input)-1, len(input)-1, ",i :", i)
-			// fmt.Println("input[i] != input[i+1] : ", input[i] != input[i+1])
-			fmt.Printf("if loop   : i is %v, value is %v, count is %v\n", i, string(input[i]), count)
 			temp[string(input[i])] = count
 			count = 1
 		} else {
-			count = count + 1
-			fmt.Printf("else loop : i is %v, value is %v, count is %v\n", i, string(input[i]), count)
+			count++
 		}
 	}
 
 	var res string
-	for t, c := range temp {
-		res += strconv.Itoa(c) + t
+	for k, c := range temp {
+		res += strconv.Itoa(c) + k
 	}
 	fmt.Println(res)
 	return res
