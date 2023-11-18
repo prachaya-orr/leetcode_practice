@@ -5,13 +5,15 @@ package main
 import (
 	"fmt"
 	"strconv"
+	"strings"
 )
 
 func main() {
 	// var aRune rune = 'a'
 	// fmt.Printf("Unicode Code point of %c\n", aRune)
 	// encode1("aab bbccccc")
-	encodec("aabbbccccc")
+	// encodec("aabbbccccc")
+	encodeShort("aabb")
 }
 
 // [{key:a,count:2},{key:b,count:3,{key:c,count:5}]
@@ -92,6 +94,23 @@ func encodec(input string) string {
 	var res string
 	for k, c := range temp {
 		res += strconv.Itoa(c) + k
+	}
+	fmt.Println(res)
+	return res
+}
+
+func encodeShort(input string) []string {
+	res := []string{}
+	count := 1
+	inputSlice := strings.Split(input, "")
+	fmt.Printf("%#v", inputSlice)
+	for i := 1; i < len(inputSlice); i++ {
+		if inputSlice[i] == inputSlice[i-1] {
+			count++
+		} else if inputSlice[i] != inputSlice[i-1] {
+			res = append(res, strconv.Itoa(count), string(inputSlice[i-1]))
+			count = 1
+		}
 	}
 	fmt.Println(res)
 	return res

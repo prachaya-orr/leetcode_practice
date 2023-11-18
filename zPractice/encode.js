@@ -21,26 +21,26 @@ RETURN output
 END
 */
 
-function encode(input) {
-    let temp = {}
-    let count = 1
-    for (let i = 0; i < input.length; i++) {
-        if (input[i] == input[i + 1]) {
-            count++
-        } else if (input[i] != input[i + 1]) {
-            temp[input[i]] = count
-            count = 1
-        }
-    }
-    let output = ""
-    for (k in temp) {
-        output += temp[k] + k
-    }
-    console.log(output);
-    return output
-}
+// function encode(input) {
+//     let temp = {}
+//     let count = 1
+//     for (let i = 0; i < input.length; i++) {
+//         if (input[i] == input[i + 1]) {
+//             count++
+//         } else if (input[i] != input[i + 1]) {
+//             temp[input[i]] = count
+//             count = 1
+//         }
+//     }
+//     let output = ""
+//     for (k in temp) {
+//         output += temp[k] + k
+//     }
+//     console.log(output);
+//     return output
+// }
 
-encode("aabbbcccaffddd")
+// encode("aabbbcccffddd")
 
 
 /* 
@@ -61,7 +61,7 @@ END
  */
 
 
-function encodec(input) {
+function encodecString(input) {
     let result = ''
     let count = 1
     for (let i = 1; i <= input.length; i++) {
@@ -72,6 +72,25 @@ function encodec(input) {
             count = 1
         }
     }
+    console.log(result);
+    return result
+}
+
+function encodec(input) {
+    let result = []
+    let count = 1
+    let arr = input.split("")
+
+    for (let i = 1; i <= arr.length; i++) {
+        if (arr[i] == arr[i - 1]) {
+            count++
+        } else if (arr[i] != arr[i - 1]) {
+            result.push(count, arr[i - 1])
+            count = 1
+        }
+    }
+
+    result = result.join("")
     console.log(result);
     return result
 }
