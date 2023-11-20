@@ -61,32 +61,52 @@ console.log(q);
 
 function bottomUp2(profit, weight, capacity) {
     let N = profit.length, M = capacity
-
     let arr = new Array(N + 1)
     for (let row = 0; row < N + 1; row++) {
         arr[row] = new Array(M + 1).fill(0)
     }
-    // Fill the first column and row to reduce edge cases
-    // for (let i = 0; i < N; i++) {
-    //     arr[i][0] = 0
-    // }
-
-    // for (let c = 0; c <= M; c++) {
-    //     if (weight[0] <= c) {
-    //         arr[0][c] = profit[0];
-    //     }
-    // }
-    for (let i = 1; i <= N; i++) {
-        for (let w = 1; w <= M; w++) {
-            if (weight[i] > w) {
-                arr[i][w] = arr[i - 1][w]
-            } else {
+    // Create a 2D array to store information about selected items
+    let selectedItems = new Array(N + 1);
+    for (let row = 0; row < N + 1; row++) {
+        selectedItems[row] = new Array(M + 1).fill(0);
+    }
+    for (let i = 0; i <= N; i++) {
+        for (let w = 0; w <= M; w++) {
+            if (i == 0 || w == 0) {
+                arr[i][w] = 0
+                continue
+            }
+            // can insert to knapsack
+            if (weight[i] <= w) {
                 arr[i][w] = Math.max(arr[i - 1][w], arr[i - 1][w - weight[i]] + profit[i])
+                // Update selectedItems array
+                if (arr[i][w] === arr[i - 1][w - weight[i]] + profit[i]) {
+                    selectedItems[i][w] = true;
+                }
+            } else {
+                arr[i][w] = arr[i - 1][w]
             }
         }
     }
-    return arr[N - 1][M]
+    let selectedIndices = [];
+    let i = N, w = M;
+    while (i > 0 && w > 0) {
+        if (selectedItems[i][w]) {
+            selectedIndices.push(i);
+            w -= weight[i];
+        }
+        i--;
+    }
+
+    return { maxProfit: arr[N - 1][M], selectedIndices: selectedIndices.reverse() }
 }
 
 const z = bottomUp2([4, 4, 7, 1], [5, 2, 3, 1], 8)
 console.log(z);
+
+let profit = [60, 100, 120];
+let weight = [10, 20, 30];
+let capacity = 50;
+let result = bottomUp2(profit, weight, capacity);
+console.log("Maximum Profit:", result.maxProfit);
+console.log("Selected Item Indices:", result.selectedIndices);
