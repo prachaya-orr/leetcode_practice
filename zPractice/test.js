@@ -39,7 +39,7 @@ function twoSum(nums, target) {
     for (let i = 0; i < nums.length; i++) {
         diff = target - nums[i]
         if (diff in obj) {
-            return [obj[i], i]
+            return [obj[diff], i]
         } else {
             obj[nums[i]] = i
         }
@@ -47,5 +47,5 @@ function twoSum(nums, target) {
     return [-1, -1]
 }
 
-const output = twoSum([2, 3, 4], 6)
+const output = twoSum([2, 7, 11, 15], 9)
 console.log('output', output)
